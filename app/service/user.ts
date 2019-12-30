@@ -1,16 +1,16 @@
 import { Service } from 'egg'
 import { userType } from '../config/interface.config'
+import { formatTime } from '../utils/formatTime'
 
 export default class UserService extends Service {
 
     // 获取所有用户列表(分页+模糊搜索)
     public async index(payload: userType) {
-        const { ctx } = this
         const { pageNo, pageSize, name, adress } = payload
         const skip = ((Number(pageNo)) - 1) * Number(pageSize || 20)
 
         const res = await this.ctx.model.User.find({
-            //多条件交集，数组
+            //多条件取交集
             $and: [
                 { adress: { $regex: adress || '' } },
                 { name: { $regex: name || '' } }
@@ -20,7 +20,7 @@ export default class UserService extends Service {
         const list = res.map((e: any, index: number) => {
             const jsonObject = Object.assign({}, e._doc)
             jsonObject.key = index
-            jsonObject.createdAt = ctx.helper.formatTime(e.createdAt)
+            jsonObject.createdAt = formatTime(e.createdAt)
             return jsonObject
         })
 
@@ -34,42 +34,42 @@ export default class UserService extends Service {
     }
 
     // 删除用户 
-    async destroy(_id: string) {
+    async destroy(id: string) {
         const { ctx } = this
         try {
-            const user = await ctx.service.user.find(_id)
+            const user = await ctx.service.user.find(id)
             if (!user) {
                 ctx.throw(101, '未找到用户')
             }
-            return ctx.model.User.findByIdAndRemove(_id)
+            return ctx.model.User.findByIdAndRemove(id)
         } catch{
             ctx.throw(101, '未找到用户')
         }
     }
 
     // 更新用户信息
-    public async update(_id: string, payload: userType) {
+    public async update(id: string, payload: userType) {
         const { ctx } = this
         try {
-            const user = await ctx.service.user.find(_id)
+            const user = await ctx.service.user.find(id)
             if (!user) {
                 ctx.throw(101, '未找到用户')
             }
-            return ctx.model.User.findByIdAndUpdate(_id, payload)
+            return ctx.model.User.findByIdAndUpdate(id, payload)
         } catch{
             ctx.throw(101, '未找到用户')
         }
     }
 
     // 获取单个用户信息
-    async show(_id: string) {
+    async show(id: string) {
         const { ctx } = this
         try {
-            const user = await ctx.service.user.find(_id)
+            const user = await ctx.service.user.find(id)
             if (!user) {
                 ctx.throw(101, '未找到用户')
             }
-            return ctx.model.User.findById(_id)
+            return ctx.model.User.findById(id)
         } catch{
             ctx.throw(101, '未找到用户')
         }

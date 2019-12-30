@@ -1,9 +1,3 @@
-import * as moment from 'moment'
-// 格式化时间
-export function formatTime(time: any): any {
-  return moment(time).format('YYYY-MM-DD HH:mm:ss')
-}
-
 // 处理成功响应
 export function success({
   ctx,
