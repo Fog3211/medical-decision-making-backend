@@ -2,10 +2,10 @@
 // Do not modify this file!!!!!!!!!
 
 import 'egg';
-import ExportRole from '../../../app/service/role';
+import ExportUser from '../../../app/service/user';
 
 declare module 'egg' {
   interface IService {
-    role: ExportRole;
+    user: ExportUser;
   }
 }

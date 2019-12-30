@@ -7,10 +7,11 @@ export default (app: Application) => {
   } = app
   router.get('/', controller.home.index)
 
-  // role
-  router.post('/api/role', controller.role.create)
-  router.post('/api/role/:id', controller.role.destroy)
-  router.put('/api/role/:id', controller.role.update)
-  router.get('/api/role/:id', controller.role.show)
-  router.resources('role', '/api/role', controller.role)
+  // user
+  // router.get('/api/user', controller.user.index)
+  // router.post('/api/user', controller.user.create)
+  // router.del('/api/user/:id', controller.user.destroy)
+  // router.put('/api/user/:id', controller.user.update)
+  // router.get('/api/user/:id', controller.user.show)
+  router.resources('user', '/api/user', controller.user)
 }
