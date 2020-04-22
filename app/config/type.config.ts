@@ -1,5 +1,5 @@
 
-interface userType {
+export interface userType {
     id?: string
     name?: string
     adress?: string
@@ -8,8 +8,4 @@ interface userType {
     pageSize?: number
     isPaging?: boolean
     search?: string
-}
-
-export {
-    userType
 }

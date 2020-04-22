@@ -3,7 +3,7 @@
     "compilerOptions": {
         "target": "es2017",
         "module": "commonjs",
-        "strict": true,
+        "strict": false,
         "noImplicitAny": false,
         "experimentalDecorators": true,
         "emitDecoratorMetadata": true,
@@ -12,7 +12,7 @@
         "pretty": true,
         "noEmitOnError": false,
         "noUnusedLocals": true,
-        "noUnusedParameters": true,
+        "noUnusedParameters": false,
         "allowUnreachableCode": false,
         "allowUnusedLabels": false,
         "strictPropertyInitialization": false,
@@ -22,9 +22,39 @@
         "inlineSourceMap": true,
         "importHelpers": true
     },
+    "baseUrl": "app",
+    "typeRoots": [
+        "node_modules/@types",
+        "app/@types"
+    ],
+    "paths": {
+        "@assets/*": [
+            "./assets/*"
+        ],
+        "@components/*": [
+            "./components/*"
+        ],
+        "@config/*": [
+            "./config/*"
+        ],
+        "@layouts/*": [
+            "./layouts/*"
+        ],
+        "@pages/*": [
+            "./pages/*"
+        ],
+        "@styles/*": [
+            "./styles/*"
+        ],
+        "@utils/*": [
+            "./utils/*"
+        ],
+        "@views/*": [
+            "./views/*"
+        ]
+    },
     "exclude": [
         "app/public",
-        "app/views",
         "node_modules*"
     ]
 }

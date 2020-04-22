@@ -1,4 +1,4 @@
-// This file is created by egg-ts-helper@1.25.6
+// This file is created by egg-ts-helper@1.25.7
 // Do not modify this file!!!!!!!!!
 
 import 'egg';
@@ -17,7 +17,6 @@ import 'egg-view';
 import 'egg-validate';
 import 'egg-bcrypt';
 import 'egg-mongoose';
-import 'egg-jwt';
 import 'egg-cors';
 import { EggPluginItem } from 'egg';
 declare module 'egg' {

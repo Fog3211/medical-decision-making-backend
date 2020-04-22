@@ -6,14 +6,13 @@ export default (appInfo: EggAppInfo): any => {
   // use for cookie sign key, should change to your own and keep security
   config.keys = appInfo.name + '_1513779989145_1674'
 
-  // 加载 errorHandler 中间件
+  // 加载中间件
   config.middleware = ['errorHandler', 'gzipResponse']
 
   // 只对 /api 前缀的 url 路径生效
   config.errorHandler = {
-    match: '/api',
+    match: '/'
   }
-
   // gzip下限，小于1k不压缩
   config.gzip = {
     threshold: 1024
@@ -25,34 +24,29 @@ export default (appInfo: EggAppInfo): any => {
     },
     domainWhiteList: ['http://localhost:8000']
   }
-
-  config.multipart = {
-    fileExtensions: ['.apk', '.pptx', '.docx', '.csv', '.doc', '.ppt', '.pdf', '.pages', '.wav', '.mov'], // 增加对 .apk 扩展名的支持
-  }
   // 参数校验配置
   config.validate = {
     convert: true, //对入参进行转换
     widelyUndefined: true //空字符串,NaN,null转成 undefined
   }
-
+  // 加密数据
   config.bcrypt = {
-    saltRounds: 10 // default 10
+    saltRounds: 10
   }
   // 数据库配置
   config.mongoose = {
-    url: 'mongodb://127.0.0.1:27017/egg_dev',
+    url: 'mongodb://127.0.0.1:27017/egg_backend',
     options: {
       useNewUrlParser: true,
       useUnifiedTopology: true
     }
   }
-
+  // token校验
   config.jwt = {
-    secret: 'Great4-M',
+    secret: 'egg_backend',
     enable: true, // default is false
-    match: '/jwt', // optional
   }
-
+  // 跨域处理
   config.cors = {
     origin: '*',// 匹配规则  域名+端口  *则为全匹配
     credentials: true,

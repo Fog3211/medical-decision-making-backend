@@ -4,31 +4,6 @@
   "author": "fog3211",
   "license": "MIT",
   "private": true,
-  "egg": {
-    "typescript": true,
-    "declarations": true
-  },
-  "dependencies": {
-    "egg": "^2.26.0",
-    "egg-bcrypt": "^1.1.0",
-    "egg-cors": "^2.2.3",
-    "egg-jwt": "^3.1.7",
-    "egg-mongoose": "^3.2.0",
-    "egg-scripts": "^2.12.0",
-    "egg-validate": "^2.0.2",
-    "moment": "^2.24.0"
-  },
-  "devDependencies": {
-    "@types/node": "^13.1.0",
-    "egg-bin": "^4.14.0",
-    "tslib": "^1.10.0",
-    "tslint": "^5.20.1",
-    "tslint-config-egg": "^1.0.0",
-    "typescript": "^3.7.4"
-  },
-  "engines": {
-    "node": ">=8.9.0"
-  },
   "scripts": {
     "start": "egg-scripts start --daemon",
     "stop": "egg-scripts stop",
@@ -36,7 +11,33 @@
     "debug": "egg-bin debug",
     "tsc": "ets && tsc -p tsconfig.json",
     "clean": "ets clean",
-    "sit": "EGG_SERVER_ENV=sit egg-bin dev",
-    "prod": "yarn clean && yarn tsc && EGG_SERVER_ENV=prod egg-scripts start --daemon"
+    "prod": "yarn clean && yarn tsc && EGG_SERVER_ENV=prod egg-scripts start --daemon",
+    "update": "npm-check-updates -u --semverLevel major && npm install"
+  },
+  "dependencies": {
+    "dayjs": "1.8.24",
+    "egg": "2.26.0",
+    "egg-bcrypt": "1.1.0",
+    "egg-cors": "2.2.3",
+    "egg-jwt": "3.1.7",
+    "egg-mongoose": "3.2.0",
+    "egg-scripts": "2.13.0",
+    "egg-validate": "2.0.2"
+  },
+  "devDependencies": {
+    "@types/node": "13.11.1",
+    "egg-bin": "4.14.1",
+    "npm-check-updates": "4.1.2",
+    "tslib": "1.11.1",
+    "tslint": "6.1.1",
+    "tslint-config-egg": "1.0.0",
+    "typescript": "3.8.3"
+  },
+  "engines": {
+    "node": ">=8.9.0"
+  },
+  "egg": {
+    "typescript": true,
+    "declarations": true
   }
 }

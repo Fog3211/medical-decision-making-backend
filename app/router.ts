@@ -5,6 +5,7 @@ export default (app: Application) => {
     router,
     controller
   } = app
+
   router.get('/', controller.home.index)
 
   // user

@@ -1,6 +1,6 @@
 import { Service } from 'egg'
-import { userType } from '../config/interface.config'
-import { formatTime } from '../utils/formatTime'
+import { userType } from '../config/type.config'
+import { formatTime } from '../utils'
 
 export default class UserService extends Service {
 
