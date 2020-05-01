@@ -1,5 +1,5 @@
 import { Controller, Context } from 'egg'
-import { GET_USER_LIST, CREATE_USER, DELETE_USER } from '../config/rule.config'
+import { GET_USER_LIST, CREATE_USER } from '../config/rule.config'
 
 export default class UserController extends Controller {
     constructor(ctx: Context) {
@@ -35,7 +35,6 @@ export default class UserController extends Controller {
         const { ctx, service } = this
         const { id } = ctx.params
 
-        ctx.validate(DELETE_USER)
         await service.user.destroy(id)
 
         ctx.helper.success({ ctx, msg: '删除成功' })

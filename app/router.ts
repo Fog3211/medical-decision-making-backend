@@ -8,6 +8,8 @@ export default (app: Application) => {
 
   router.get('/', controller.home.index)
 
+  // router.resources('user', '/api/user', app.middleware.jwt(), controller.user)
+
   // user
   // router.get('/api/user', controller.user.index)
   // router.post('/api/user', controller.user.create)

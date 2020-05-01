@@ -14,7 +14,7 @@ exports.mongoose = {
 }
 
 exports.jwt = {
-  enable: false,
+  enable: true,
   package: 'egg-jwt',
 }
 

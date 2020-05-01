@@ -5,7 +5,8 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "start": "egg-scripts start --daemon",
+    "start": "egg-bin dev",
+    "start:daemon": "egg-scripts start --daemon",
     "stop": "egg-scripts stop",
     "dev": "egg-bin dev",
     "debug": "egg-bin debug",
@@ -15,7 +16,7 @@
     "update": "npm-check-updates -u --semverLevel major && npm install"
   },
   "dependencies": {
-    "dayjs": "1.8.24",
+    "dayjs": "1.8.25",
     "egg": "2.26.0",
     "egg-bcrypt": "1.1.0",
     "egg-cors": "2.2.3",
@@ -25,11 +26,11 @@
     "egg-validate": "2.0.2"
   },
   "devDependencies": {
-    "@types/node": "13.11.1",
+    "@types/node": "13.13.3",
     "egg-bin": "4.14.1",
     "npm-check-updates": "4.1.2",
     "tslib": "1.11.1",
-    "tslint": "6.1.1",
+    "tslint": "6.1.2",
     "tslint-config-egg": "1.0.0",
     "typescript": "3.8.3"
   },
