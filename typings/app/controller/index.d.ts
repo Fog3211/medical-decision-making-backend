@@ -5,6 +5,7 @@ import 'egg';
 import ExportAdminer from '../../../app/controller/adminer';
 import ExportDisease from '../../../app/controller/disease';
 import ExportHome from '../../../app/controller/home';
+import ExportHospital from '../../../app/controller/hospital';
 import ExportUser from '../../../app/controller/user';
 
 declare module 'egg' {
@@ -12,6 +13,7 @@ declare module 'egg' {
     adminer: ExportAdminer;
     disease: ExportDisease;
     home: ExportHome;
+    hospital: ExportHospital;
     user: ExportUser;
   }
 }

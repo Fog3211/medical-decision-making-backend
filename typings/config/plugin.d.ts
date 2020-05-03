@@ -17,7 +17,6 @@ import 'egg-view';
 import 'egg-validate';
 import 'egg-bcrypt';
 import 'egg-mongoose';
-import 'egg-jwt';
 import 'egg-cors';
 import { EggPluginItem } from 'egg';
 declare module 'egg' {

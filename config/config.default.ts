@@ -55,7 +55,7 @@ export default (appInfo: EggAppInfo): any => {
   // token校验
   config.jwt = {
     secret: JWT_SECRET,
-    enable: true,
+    enable: false,
   }
   // 文件上传
   config.upload = {

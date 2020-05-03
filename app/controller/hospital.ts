@@ -1,7 +1,7 @@
 import { Controller, Context } from 'egg'
-import { GET_USER_LIST, CREATE_USER } from '../config/rule.config'
+// import { GET_HOSPITAL_LIST, CREATE_HOSPITAL } from '../config/rule.config'
 
-export default class UserController extends Controller {
+export default class HospitalController extends Controller {
     constructor(ctx: Context) {
         super(ctx)
     }
@@ -9,11 +9,11 @@ export default class UserController extends Controller {
     public async index() {
         const { ctx, service } = this
 
-        ctx.validate(GET_USER_LIST)
+        // ctx.validate(GET_HOSPITAL_LIST)
         // 组装参数
         const payload = ctx.request.body || {}
         // 调用 Service 进行业务处理
-        const result = await service.user.index(payload)
+        const result = await service.hospital.index(payload)
         // 设置响应内容和响应状态码
         ctx.helper.success({ ctx, result })
     }
@@ -22,10 +22,10 @@ export default class UserController extends Controller {
     async create() {
         const { ctx, service } = this
 
-        ctx.validate(CREATE_USER)
+        // ctx.validate(CREATE_HOSPITAL)
 
         const payload = ctx.request.body || {}
-        const result = await service.user.create(payload)
+        const result = await service.hospital.create(payload)
 
         ctx.helper.success({ ctx, result })
     }
@@ -35,7 +35,7 @@ export default class UserController extends Controller {
         const { ctx, service } = this
         const { id } = ctx.params
 
-        await service.user.destroy(id)
+        await service.hospital.destroy(id)
 
         ctx.helper.success({ ctx, msg: '删除成功' })
     }
@@ -46,7 +46,7 @@ export default class UserController extends Controller {
         const { id } = ctx.params
 
         const payload = ctx.request.body || {}
-        await service.user.update(id, payload)
+        await service.hospital.update(id, payload)
 
         ctx.helper.success({ ctx })
     }
@@ -56,7 +56,7 @@ export default class UserController extends Controller {
         const { ctx, service } = this
         const { id } = ctx.params
 
-        const result = await service.user.show(id)
+        const result = await service.hospital.show(id)
 
         ctx.helper.success({ ctx, result })
     }
