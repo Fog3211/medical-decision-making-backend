@@ -16,6 +16,7 @@
     "update": "npm-check-updates -u --semverLevel major && npm install"
   },
   "dependencies": {
+    "crypto-js": "4.0.0",
     "dayjs": "1.8.25",
     "egg": "2.26.0",
     "egg-bcrypt": "1.1.0",

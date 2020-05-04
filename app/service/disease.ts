@@ -1,6 +1,5 @@
 import { Service } from 'egg'
 import { DiseaseType } from '../config/type.config'
-import { formatTime } from '../utils'
 
 export default class DiseaseService extends Service {
 
@@ -19,7 +18,6 @@ export default class DiseaseService extends Service {
         const data = result.map((e: any, index: number) => {
             const jsonObject = Object.assign({}, e._doc)
             jsonObject.key = index
-            jsonObject.createdAt = formatTime(e.createdAt)
             return jsonObject
         })
 

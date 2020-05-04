@@ -7,15 +7,18 @@ export default (app: Application) => {
   } = app
 
   router.get('/', controller.home.index)
-  // router.resources('user', '/admin/user', app.middleware.jwt(), controller.user)
+
+  // admin
+
+  // login
+  router.post('/admin/login', controller.adminer.login)
 
   // user
-  // router.get('/admin/user', controller.user.index)
+  router.get('/admin/user', controller.user.index)
   // router.post('/admin/user', controller.user.create)
-  // router.del('/admin/user/:id', controller.user.destroy)
-  // router.put('/admin/user/:id', controller.user.update)
-  // router.get('/admin/user/:id', controller.user.show)
-  router.resources('user', '/admin/user', controller.user)
+  router.del('/admin/user/:id', controller.user.destroy)
+  router.put('/admin/user/:id', controller.user.update)
+  router.get('/admin/user/:id', controller.user.show)
 
   // disease
   // router.get('/admin/disease', controller.disease.index)
@@ -48,4 +51,11 @@ export default (app: Application) => {
   // router.put('/admin/decision/:id', controller.decision.update)
   // router.get('/admin/decision/:id', controller.decision.show)
   // router.resources('decision', '/admin/decision', controller.decision)
+
+
+
+  // api
+  // login
+  router.post('/api/login', controller.user.login)
+  router.post('/api/register', controller.user.register)
 }

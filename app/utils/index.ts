@@ -1,7 +1,7 @@
-import formatTime from './formatTime'
 import isJson from './isJson'
+import encryptionUtils from './encryption'
 
 export {
-    formatTime,
-    isJson
+    isJson,
+    encryptionUtils
 }

@@ -25,6 +25,7 @@ export default class AdminerController extends Controller {
         ctx.validate(CREATE_ADMINER)
 
         const payload = ctx.request.body || {}
+
         const result = await service.adminer.create(payload)
 
         ctx.helper.success({ ctx, result })
@@ -57,6 +58,16 @@ export default class AdminerController extends Controller {
         const { id } = ctx.params
 
         const result = await service.adminer.show(id)
+
+        ctx.helper.success({ ctx, result })
+    }
+
+    // 后台用户登录
+    async login() {
+        const { ctx, service } = this
+        const payload = ctx.request.body || {}
+
+        const result = await service.adminer.login(payload)
 
         ctx.helper.success({ ctx, result })
     }

@@ -6,8 +6,11 @@ export default (app: Application) => {
 
     const UserSchema = new mongoose.Schema({
         name: { type: String, required: true },
-        age: { type: Number, required: true },
-        adress: { type: String, required: true },
+        password: { type: String, required: true },
+        nickName: { type: String, required: true },
+        birthday: { type: String, required: true },
+        sex: { type: Boolean, required: true },
+        telphone: { type: Number, required: true },
         createdAt: { type: String, default: dayjs().format('YYYY-MM-DD HH:mm:ss') }
     })
 

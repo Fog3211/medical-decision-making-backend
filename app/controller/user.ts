@@ -18,20 +18,8 @@ export default class UserController extends Controller {
         ctx.helper.success({ ctx, result })
     }
 
-    // 创建单个用户
-    async create() {
-        const { ctx, service } = this
-
-        ctx.validate(CREATE_USER)
-
-        const payload = ctx.request.body || {}
-        const result = await service.user.create(payload)
-
-        ctx.helper.success({ ctx, result })
-    }
-
     // 删除单个用户
-    async destroy() {
+    public async destroy() {
         const { ctx, service } = this
         const { id } = ctx.params
 
@@ -41,7 +29,7 @@ export default class UserController extends Controller {
     }
 
     // 修改角色
-    async update() {
+    public async update() {
         const { ctx, service } = this
         const { id } = ctx.params
 
@@ -52,7 +40,7 @@ export default class UserController extends Controller {
     }
 
     // 获取单个角色
-    async show() {
+    public async show() {
         const { ctx, service } = this
         const { id } = ctx.params
 
@@ -61,4 +49,25 @@ export default class UserController extends Controller {
         ctx.helper.success({ ctx, result })
     }
 
+    // 用户登录
+    public async login() {
+        const { ctx, service } = this
+        const payload = ctx.request.body || {}
+
+        const result = await service.user.login(payload)
+
+        ctx.helper.success({ ctx, result })
+    }
+
+    // 用户注册
+    public async register() {
+        const { ctx, service } = this
+
+        ctx.validate(CREATE_USER)
+
+        const payload = ctx.request.body || {}
+        const result = await service.user.register(payload)
+
+        ctx.helper.success({ ctx, result })
+    }
 }

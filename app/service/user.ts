@@ -1,36 +1,32 @@
 import { Service } from 'egg'
 import { UserType } from '../config/type.config'
-import { formatTime } from '../utils'
+import { encryptionUtils } from '../utils/index'
 
 export default class UserService extends Service {
 
     // 获取所有用户列表(分页+模糊搜索)
-    public async index(payload: UserType) {
-        const { pageNo, pageSize, name, adress } = payload
-        const skip = ((Number(pageNo)) - 1) * Number(pageSize || 20)
+    public async index(payload) {
+        const { pageNo = 1, pageSize = 20, name } = payload
+        const skip = (pageNo - 1) * pageSize
 
         const result = await this.ctx.model.User.find({
             //多条件取交集
             $and: [
-                { adress: { $regex: adress || '' } },
                 { name: { $regex: name || '' } }
             ]
-        }).populate('user').skip(skip).limit(Number(pageSize)).sort({ createdAt: -1 }).exec()
+        }).populate('user').skip(skip).limit(pageSize).sort({ createdAt: -1 }).exec()
+        console.log(payload, name)
         const count = result.length
-        const data = result.map((e: any, index: number) => {
-            const jsonObject = Object.assign({}, e._doc)
-            jsonObject.key = index
-            jsonObject.createdAt = formatTime(e.createdAt)
-            return jsonObject
+        const data = result.map(u => {
+            return {
+                id: u._id,
+                name: u.name,
+                nickName: u.nickName,
+                sex: u.sex,
+            }
         })
 
         return { count, data }
-    }
-
-    // 添加单个用户
-    public async create(payload: UserType) {
-        const { ctx } = this
-        return ctx.model.User.create(payload)
     }
 
     // 删除用户 
@@ -80,4 +76,40 @@ export default class UserService extends Service {
         return this.ctx.model.User.findById(id)
     }
 
+    // 用户注册
+    public async register(payload: UserType) {
+        const { ctx } = this
+        const params = {
+            ...payload,
+            password: encryptionUtils.encrypt(payload.password)
+        }
+        return ctx.model.User.create(params)
+    }
+
+    // 用户登录
+    public async login(payload) {
+        const { ctx } = this
+        const params = {
+            email: payload.email,
+            telphone: payload.telphone,
+            password: payload.password
+        }
+        Object.keys(params).forEach((key) => {
+            if (params[key] === null || params[key] === undefined) {
+                delete params[key]
+            }
+        })
+        const currentUser = await ctx.model.User.findOne(params)
+
+        if (currentUser) {
+            return {
+                id: currentUser.id,
+                name: currentUser.name,
+                auth: currentUser.auth,
+                // token
+            }
+        } else {
+            ctx.throw(101, '登录失败,密码或账号错误!')
+        }
+    }
 }

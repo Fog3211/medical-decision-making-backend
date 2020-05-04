@@ -1,11 +1,10 @@
 import { Service } from 'egg'
 import { HospitalType } from '../config/type.config'
-import { formatTime } from '../utils'
 
 export default class HospitalService extends Service {
 
     // 获取所有疾病列表(分页+模糊搜索)
-    public async index(payload: HospitalType) {
+    public async index(payload) {
         const { pageNo, pageSize, name } = payload
         const skip = ((Number(pageNo)) - 1) * Number(pageSize || 20)
 
@@ -19,7 +18,6 @@ export default class HospitalService extends Service {
         const data = result.map((e: any, index: number) => {
             const jsonObject = Object.assign({}, e._doc)
             jsonObject.key = index
-            jsonObject.createdAt = formatTime(e.createdAt)
             return jsonObject
         })
 
