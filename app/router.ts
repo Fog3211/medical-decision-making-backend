@@ -7,7 +7,6 @@ export default (app: Application) => {
   } = app
 
   router.get('/', controller.home.index)
-
   // admin
 
   // login
@@ -16,9 +15,12 @@ export default (app: Application) => {
   // user
   router.get('/admin/user', controller.user.index)
   // router.post('/admin/user', controller.user.create)
-  router.del('/admin/user/:id', controller.user.destroy)
+  router.del('/admin/user/:id', controller.user.destroyUser)
   router.put('/admin/user/:id', controller.user.update)
-  router.get('/admin/user/:id', controller.user.show)
+  router.get('/admin/user/:id', controller.user.showUserDetail)
+
+  // auth
+  router.get('/admin/auth', controller.auth.authList)
 
   // disease
   // router.get('/admin/disease', controller.disease.index)
@@ -29,12 +31,11 @@ export default (app: Application) => {
   router.resources('disease', '/admin/disease', controller.disease)
 
   // adminer
-  // router.get('/admin/adminer', controller.adminer.index)
-  // router.post('/admin/adminer', controller.adminer.create)
-  // router.del('/admin/adminer/:id', controller.adminer.destroy)
-  // router.put('/admin/adminer/:id', controller.adminer.update)
-  // router.get('/admin/adminer/:id', controller.adminer.show)
-  router.resources('adminer', '/admin/adminer', controller.adminer)
+  router.get('/admin/adminer', controller.adminer.index)
+  router.post('/admin/adminer', controller.adminer.createAdminer)
+  router.del('/admin/adminer/:id', controller.adminer.destroyAdminer)
+  router.put('/admin/adminer/:id', controller.adminer.update)
+  router.get('/admin/adminer/:id', controller.adminer.adminerDetail)
 
   // hospital
   // router.get('/admin/hospital', controller.hospital.index)
@@ -45,11 +46,10 @@ export default (app: Application) => {
   router.resources('hospital', '/admin/hospital', controller.hospital)
 
   // decision
-  // router.get('/admin/decision', controller.decision.index)
-  // router.post('/admin/decision', controller.decision.create)
-  // router.del('/admin/decision/:id', controller.decision.destroy)
-  // router.put('/admin/decision/:id', controller.decision.update)
-  // router.get('/admin/decision/:id', controller.decision.show)
+  router.get('/admin/decision', controller.decision.index)
+  router.del('/admin/decision/:id', controller.decision.destroyDecision)
+  router.put('/admin/decision/:id', controller.decision.update)
+  router.get('/admin/decision/:id', controller.decision.show)
   // router.resources('decision', '/admin/decision', controller.decision)
 
 

@@ -1,14 +1,16 @@
 import { Controller, Context } from 'egg'
-import { CREATE_USER } from '../config/rule.config'
+import { GET_DECISION_LIST, CREATE_DECISION } from '../config/rule.config'
 import { DEFAULT_PAGENO, DEFAULT_PAGESIZE } from '../config/constant.config'
 
-export default class UserController extends Controller {
+export default class DecisionController extends Controller {
     constructor(ctx: Context) {
         super(ctx)
     }
     // 获取所有用户列表
     public async index() {
         const { ctx, service } = this
+
+        ctx.validate(GET_DECISION_LIST)
         // 组装参数
         const payload = ctx.request.query || {}
         const params = {
@@ -16,19 +18,19 @@ export default class UserController extends Controller {
             pageNo: Number(payload.pageNo) || DEFAULT_PAGENO,
             pageSize: Number(payload.pageSize) || DEFAULT_PAGESIZE
         }
-        const result = await service.user.index(params)
+        const result = await service.decision.index(params)
         // 设置响应内容和响应状态码
         ctx.helper.success({ ctx, result })
     }
 
-    // 封禁单个用户
-    public async destroyUser() {
+    // 删除单个用户
+    public async destroyDecision() {
         const { ctx, service } = this
         const { id } = ctx.params
 
-        await service.user.destroyUser(id)
+        await service.decision.destroyDecision(id)
 
-        ctx.helper.success({ ctx, msg: '封禁/解封成功' })
+        ctx.helper.success({ ctx, msg: '删除成功' })
     }
 
     // 修改角色
@@ -37,17 +39,17 @@ export default class UserController extends Controller {
         const { id } = ctx.params
 
         const payload = ctx.request.body || {}
-        await service.user.update(id, payload)
+        await service.decision.update(id, payload)
 
         ctx.helper.success({ ctx })
     }
 
     // 获取单个角色
-    public async showUserDetail() {
+    public async show() {
         const { ctx, service } = this
         const { id } = ctx.params
 
-        const result = await service.user.showUserDetail(id)
+        const result = await service.decision.show(id)
 
         ctx.helper.success({ ctx, result })
     }
@@ -56,8 +58,8 @@ export default class UserController extends Controller {
     public async login() {
         const { ctx, service } = this
         const payload = ctx.request.body || {}
-        console.log(payload)
-        const result = await service.user.login(payload)
+
+        const result = await service.decision.login(payload)
 
         ctx.helper.success({ ctx, result })
     }
@@ -66,10 +68,10 @@ export default class UserController extends Controller {
     public async register() {
         const { ctx, service } = this
 
-        ctx.validate(CREATE_USER)
+        ctx.validate(CREATE_DECISION)
 
         const payload = ctx.request.body || {}
-        const result = await service.user.register(payload)
+        const result = await service.decision.register(payload)
 
         ctx.helper.success({ ctx, result })
     }

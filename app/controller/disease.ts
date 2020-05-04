@@ -1,19 +1,23 @@
 import { Controller, Context } from 'egg'
-import { GET_DISEASE_LIST, CREATE_DISEASE } from '../config/rule.config'
+import { CREATE_DISEASE } from '../config/rule.config'
+import { DEFAULT_PAGENO, DEFAULT_PAGESIZE } from '../config/constant.config'
 
 export default class DiseaseController extends Controller {
     constructor(ctx: Context) {
         super(ctx)
     }
-    // 获取所有用户列表
+    // 获取疾病列表
     public async index() {
         const { ctx, service } = this
 
-        ctx.validate(GET_DISEASE_LIST)
         // 组装参数
-        const payload = ctx.request.body || {}
-        // 调用 Service 进行业务处理
-        const result = await service.disease.index(payload)
+        const payload = ctx.request.query || {}
+        const params = {
+            ...payload,
+            pageNo: Number(payload.pageNo) || DEFAULT_PAGENO,
+            pageSize: Number(payload.pageSize) || DEFAULT_PAGESIZE
+        }
+        const result = await service.disease.index(params)
         // 设置响应内容和响应状态码
         ctx.helper.success({ ctx, result })
     }

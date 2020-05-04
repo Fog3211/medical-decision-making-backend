@@ -6,38 +6,41 @@ export default class UserService extends Service {
 
     // 获取所有用户列表(分页+模糊搜索)
     public async index(payload) {
-        const { pageNo = 1, pageSize = 20, name } = payload
+        const { pageNo, pageSize, name } = payload
         const skip = (pageNo - 1) * pageSize
-
-        const result = await this.ctx.model.User.find({
-            //多条件取交集
+        const params = {
             $and: [
                 { name: { $regex: name || '' } }
             ]
-        }).populate('user').skip(skip).limit(pageSize).sort({ createdAt: -1 }).exec()
-        console.log(payload, name)
-        const count = result.length
+        }
+        const result = await this.ctx.model.User.find(params).populate('User').skip(skip).limit(pageSize).sort({ createdAt: -1 }).exec()
+        const count = await this.ctx.model.User.find(params).countDocuments()
+
         const data = result.map(u => {
             return {
-                id: u._id,
+                id: u.id,
                 name: u.name,
                 nickName: u.nickName,
-                sex: u.sex,
+                sex: u.sex ? '男' : '女',
+                age: u.age,
+                telphone: u.telphone,
+                isForbidden: u.isForbidden,
+                createdAt: u.createdAt,
             }
         })
 
         return { count, data }
     }
 
-    // 删除用户 
-    async destroy(id: string) {
+    // 封禁用户 
+    async destroyUser(id: string) {
         const { ctx } = this
         try {
-            const user = await ctx.service.user.find(id)
+            const user = await ctx.model.User.findById(id)
             if (!user) {
                 ctx.throw(101, '未找到用户')
             }
-            return ctx.model.User.findByIdAndRemove(id)
+            return ctx.model.User.findByIdAndUpdate(id, { isForbidden: true })
         } catch{
             ctx.throw(101, '未找到用户')
         }
@@ -47,7 +50,7 @@ export default class UserService extends Service {
     public async update(id: string, payload: UserType) {
         const { ctx } = this
         try {
-            const user = await ctx.service.user.find(id)
+            const user = await ctx.model.User.findById(id)
             if (!user) {
                 ctx.throw(101, '未找到用户')
             }
@@ -58,22 +61,23 @@ export default class UserService extends Service {
     }
 
     // 获取单个用户信息
-    async show(id: string) {
+    async showUserDetail(id: string) {
         const { ctx } = this
-        try {
-            const user = await ctx.service.user.find(id)
-            if (!user) {
-                ctx.throw(101, '未找到用户')
+        const user = await ctx.model.User.findById(id)
+
+        if (user) {
+            return {
+                id: user.id,
+                name: user.name,
+                nickName: user.nickName,
+                adress: user.adress,
+                createdAt: user.createdAt,
+                sex: user.sex,
+                telphone: user.telphone,
             }
-            return ctx.model.User.findById(id)
-        } catch{
+        } else {
             ctx.throw(101, '未找到用户')
         }
-    }
-
-    // 更加id查找数据
-    async find(id: string) {
-        return this.ctx.model.User.findById(id)
     }
 
     // 用户注册

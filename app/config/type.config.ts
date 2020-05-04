@@ -27,7 +27,9 @@ export interface AdminerType {
 export interface HospitalType {
     id?: string
     name?: string
-
-
-
+}
+//决策数据管理-admin
+export interface DecisionType {
+    id?: string
+    name?: string
 }

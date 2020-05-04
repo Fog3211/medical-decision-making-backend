@@ -17,7 +17,7 @@
   },
   "dependencies": {
     "crypto-js": "4.0.0",
-    "dayjs": "1.8.25",
+    "dayjs": "1.8.26",
     "egg": "2.26.0",
     "egg-bcrypt": "1.1.0",
     "egg-cors": "2.2.3",

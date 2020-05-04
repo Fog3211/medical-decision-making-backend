@@ -1,31 +1,37 @@
 import { Service } from 'egg'
 import { AdminerType } from '../config/type.config'
+import { encryptionUtils } from '../utils/index'
 
 export default class AdminerService extends Service {
 
     // 获取所有疾病列表(分页+模糊搜索)
     public async index(payload) {
+        const { ctx } = this
         const { pageNo, pageSize, name } = payload
         const skip = ((Number(pageNo)) - 1) * Number(pageSize || 20)
-
-        const result = await this.ctx.model.Adminer.find({
-            //多条件取交集
+        const params = {
             $and: [
                 { name: { $regex: name || '' } }
             ]
-        }).populate('Adminer').skip(skip).limit(Number(pageSize)).sort({ createdAt: -1 }).exec()
-        const count = result.length
-        const data = result.map((e: any, index: number) => {
-            const jsonObject = Object.assign({}, e._doc)
-            jsonObject.key = index
-            return jsonObject
+        }
+        const result = await ctx.model.Adminer.find(params).populate('Adminer').skip(skip).limit(Number(pageSize)).sort({ createdAt: -1 }).exec()
+        const count = await ctx.model.Adminer.find(params).countDocuments()
+
+        const data = result.map(u => {
+            return {
+                id: u._id,
+                name: u.name,
+                auth: u.auth,
+                createdAt: u.createdAt,
+                telphone: u.telphone
+            }
         })
 
         return { count, data }
     }
 
     // 添加单个用户
-    public async create(payload: AdminerType) {
+    public async createAdminer(payload: AdminerType) {
         const { ctx } = this
         const hasUser = await ctx.model.Adminer.findOne({ $or: [{ email: payload.email }, { telphone: payload.telphone }] })
         if (hasUser) {
@@ -36,15 +42,14 @@ export default class AdminerService extends Service {
     }
 
     // 删除用户 
-    async destroy(id: string) {
+    async destroyAdminer(id: string) {
         const { ctx } = this
-        try {
-            const Adminer = await ctx.service.Adminer.find(id)
-            if (!Adminer) {
-                ctx.throw(101, '未找到用户')
-            }
-            return ctx.model.Adminer.findByIdAndRemove(id)
-        } catch{
+        const currentUser = await ctx.model.Adminer.findOne({
+            _id: id
+        })
+        if (currentUser) {
+            return ctx.model.Adminer.findByIdAndRemove({ _id: id })
+        } else {
             ctx.throw(101, '未找到用户')
         }
     }
@@ -64,15 +69,19 @@ export default class AdminerService extends Service {
     }
 
     // 获取单个用户信息
-    public async show(id: string) {
+    public async adminerDetail(id: string) {
         const { ctx } = this
-        try {
-            const Adminer = await ctx.service.Adminer.find(id)
-            if (!Adminer) {
-                ctx.throw(101, '未找到用户')
+
+        const currentUser = await ctx.model.Adminer.findOne({
+            _id: id
+        })
+        if (currentUser) {
+            return {
+                name: currentUser.name,
+                password: currentUser.password,
+                auth: currentUser.auth
             }
-            return ctx.model.Adminer.findById(id)
-        } catch{
+        } else {
             ctx.throw(101, '未找到用户')
         }
     }
@@ -88,7 +97,7 @@ export default class AdminerService extends Service {
         const params = {
             email: payload.email,
             telphone: payload.telphone,
-            password: payload.password
+            password: encryptionUtils.decrypt(payload.password)
         }
         Object.keys(params).forEach((key) => {
             if (params[key] === null || params[key] === undefined) {
@@ -96,7 +105,6 @@ export default class AdminerService extends Service {
             }
         })
         const currentUser = await ctx.model.Adminer.findOne(params)
-
         if (currentUser) {
             return {
                 id: currentUser.id,

@@ -1,5 +1,5 @@
 import { Controller, Context } from 'egg'
-import { GET_ADMINER_LIST, CREATE_ADMINER } from '../config/rule.config'
+import { CREATE_ADMINER } from '../config/rule.config'
 
 export default class AdminerController extends Controller {
     constructor(ctx: Context) {
@@ -8,8 +8,6 @@ export default class AdminerController extends Controller {
     // 获取所有用户列表
     public async index() {
         const { ctx, service } = this
-
-        ctx.validate(GET_ADMINER_LIST)
         // 组装参数
         const payload = ctx.request.body || {}
         // 调用 Service 进行业务处理
@@ -19,24 +17,24 @@ export default class AdminerController extends Controller {
     }
 
     // 创建单个用户
-    async create() {
+    async createAdminer() {
         const { ctx, service } = this
 
         ctx.validate(CREATE_ADMINER)
 
         const payload = ctx.request.body || {}
 
-        const result = await service.adminer.create(payload)
+        const result = await service.adminer.createAdminer(payload)
 
         ctx.helper.success({ ctx, result })
     }
 
     // 删除单个用户
-    async destroy() {
+    async destroyAdminer() {
         const { ctx, service } = this
         const { id } = ctx.params
 
-        await service.adminer.destroy(id)
+        await service.adminer.destroyAdminer(id)
 
         ctx.helper.success({ ctx, msg: '删除成功' })
     }
@@ -53,11 +51,11 @@ export default class AdminerController extends Controller {
     }
 
     // 获取单个角色
-    async show() {
+    async adminerDetail() {
         const { ctx, service } = this
         const { id } = ctx.params
 
-        const result = await service.adminer.show(id)
+        const result = await service.adminer.adminerDetail(id)
 
         ctx.helper.success({ ctx, result })
     }
