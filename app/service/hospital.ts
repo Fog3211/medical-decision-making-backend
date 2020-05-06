@@ -4,21 +4,28 @@ import { HospitalType } from '../config/type.config'
 export default class HospitalService extends Service {
 
     // 获取所有疾病列表(分页+模糊搜索)
-    public async index(payload) {
+    public async hospitalList(payload) {
         const { pageNo, pageSize, name } = payload
-        const skip = ((Number(pageNo)) - 1) * Number(pageSize || 20)
-
-        const result = await this.ctx.model.Hospital.find({
-            //多条件取交集
+        const skip = (pageNo - 1) * pageSize
+        const params = {
             $and: [
                 { name: { $regex: name || '' } }
             ]
-        }).populate('Hospital').skip(skip).limit(Number(pageSize)).sort({ createdAt: -1 }).exec()
-        const count = result.length
-        const data = result.map((e: any, index: number) => {
-            const jsonObject = Object.assign({}, e._doc)
-            jsonObject.key = index
-            return jsonObject
+        }
+        const result = await this.ctx.model.Hospital.find(params).populate('Hospital').skip(skip).limit(pageSize).sort({ createdAt: -1 }).exec()
+        const count = await this.ctx.model.Hospital.find(params).countDocuments()
+
+        const data = result.map(u => {
+            return {
+                id: u.id,
+                name: u.name,
+                province: u.province,
+                city: u.city,
+                phone: u.phone,
+                address: u.address,
+                handler: u.handler,
+                createAt: u.createAt
+            }
         })
 
         return { count, data }

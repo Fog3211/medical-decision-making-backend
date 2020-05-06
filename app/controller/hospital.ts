@@ -1,20 +1,22 @@
 import { Controller, Context } from 'egg'
 // import { GET_HOSPITAL_LIST, CREATE_HOSPITAL } from '../config/rule.config'
+import { DEFAULT_PAGENO, DEFAULT_PAGESIZE } from '../config/constant.config'
 
 export default class HospitalController extends Controller {
     constructor(ctx: Context) {
         super(ctx)
     }
-    // 获取所有用户列表
-    public async index() {
+    // 获取所有医院列表
+    public async hospitalList() {
         const { ctx, service } = this
+        const payload = ctx.request.query || {}
+        const params = {
+            ...payload,
+            pageNo: Number(payload.pageNo) || DEFAULT_PAGENO,
+            pageSize: Number(payload.pageSize) || DEFAULT_PAGESIZE
+        }
+        const result = await service.hospital.hospitalList(params)
 
-        // ctx.validate(GET_HOSPITAL_LIST)
-        // 组装参数
-        const payload = ctx.request.body || {}
-        // 调用 Service 进行业务处理
-        const result = await service.hospital.index(payload)
-        // 设置响应内容和响应状态码
         ctx.helper.success({ ctx, result })
     }
 

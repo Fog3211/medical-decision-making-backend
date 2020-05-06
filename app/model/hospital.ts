@@ -5,10 +5,13 @@ export default (app: Application) => {
     const mongoose = app.mongoose
 
     const HospitalSchema = new mongoose.Schema({
-        hospitalName: { type: String, required: true },
-        hospitalCode: { type: String, required: true },
+        name: { type: String, required: true },
+        phone: { type: String, required: true },
         handler: { type: String, required: true },
+        province: { type: String, required: true },
+        city: { type: String, required: true },
         address: { type: String, required: true },
+        introduction: { type: String, required: true },
         createdAt: { type: String, default: dayjs().format('YYYY-MM-DD HH:mm:ss') },
     })
 

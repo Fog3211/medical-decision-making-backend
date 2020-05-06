@@ -38,12 +38,11 @@ export default (app: Application) => {
   router.get('/admin/adminer/:id', controller.adminer.adminerDetail)
 
   // hospital
-  // router.get('/admin/hospital', controller.hospital.index)
-  // router.post('/admin/hospital', controller.hospital.create)
-  // router.del('/admin/hospital/:id', controller.hospital.destroy)
-  // router.put('/admin/hospital/:id', controller.hospital.update)
-  // router.get('/admin/hospital/:id', controller.hospital.show)
-  router.resources('hospital', '/admin/hospital', controller.hospital)
+  router.get('/admin/hospital', controller.hospital.hospitalList)
+  router.post('/admin/hospital', controller.hospital.create)
+  router.del('/admin/hospital/:id', controller.hospital.destroy)
+  router.put('/admin/hospital/:id', controller.hospital.update)
+  router.get('/admin/hospital/:id', controller.hospital.show)
 
   // decision
   router.get('/admin/decision', controller.decision.index)

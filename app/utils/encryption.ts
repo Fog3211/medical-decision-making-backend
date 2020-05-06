@@ -1,10 +1,6 @@
-// import sha256 from 'crypto-js/sha256'
+const Base64 = require('js-base64').Base64
 
-// export default {
-//     encrypt: (value: string) => sha256.encrypt(value, 'medical_decision_support').toString(),
-//     decrypt: (value: string) => sha256.decrypt(value, 'medical_decision_support').toString()
-// }
 export default {
-    encrypt: (value: string) => value,
-    decrypt: (value: string) => value
+    encrypt: (value: string) => Base64.encode(Base64.encode(value)),
+    decrypt: (value: string) => Base64.decode(Base64.decode(value))
 }
