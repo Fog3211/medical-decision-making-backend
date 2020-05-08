@@ -11,6 +11,7 @@ import ExportAuth from '../../../app/service/auth';
 import ExportDecision from '../../../app/service/decision';
 import ExportDisease from '../../../app/service/disease';
 import ExportHospital from '../../../app/service/hospital';
+import ExportQuestion from '../../../app/service/question';
 import ExportUser from '../../../app/service/user';
 
 declare module 'egg' {
@@ -20,6 +21,7 @@ declare module 'egg' {
     decision: AutoInstanceType<typeof ExportDecision>;
     disease: AutoInstanceType<typeof ExportDisease>;
     hospital: AutoInstanceType<typeof ExportHospital>;
+    question: AutoInstanceType<typeof ExportQuestion>;
     user: AutoInstanceType<typeof ExportUser>;
   }
 }

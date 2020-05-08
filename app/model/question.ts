@@ -4,7 +4,7 @@ import * as dayjs from 'dayjs'
 export default (app: Application) => {
     const mongoose = app.mongoose
 
-    const DiseaseSchema = new mongoose.Schema({
+    const QuestionSchema = new mongoose.Schema({
         name: { type: String, required: true },
         key: { type: String, required: true },
         handler: { type: String, required: true },
@@ -16,5 +16,5 @@ export default (app: Application) => {
         isHidden: { type: Boolean, required: true }
     })
 
-    return mongoose.model('Disease', DiseaseSchema)
+    return mongoose.model('Question', QuestionSchema)
 }

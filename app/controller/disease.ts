@@ -65,4 +65,21 @@ export default class DiseaseController extends Controller {
         ctx.helper.success({ ctx, result })
     }
 
+    // 根据身体部位选疾病
+    async bodyPartList() {
+        const { ctx, service } = this
+
+        const result = await service.disease.bodyPartList()
+
+        ctx.helper.success({ ctx, result })
+    }
+    // 根据身体科室选疾病
+    async departmentList() {
+        const { ctx, service } = this
+
+        const result = await service.disease.departmentList()
+
+        ctx.helper.success({ ctx, result })
+    }
+
 }

@@ -83,4 +83,39 @@ export default class DiseaseService extends Service {
         }
     }
 
+    // 获取单个疾病信息
+    async bodyPartList() {
+        const { ctx } = this
+
+        const result = await ctx.model.BodyPart.find({}).populate('BodyPart').exec()
+        console.log(result)
+        const data = result.map(u => {
+            return {
+                id: u._id,
+                name: u.name,
+                key: u.key,
+                child: u.child
+            }
+        })
+
+        return { data }
+    }
+
+    // 获取单个疾病信息
+    async departmentList() {
+        const { ctx } = this
+
+        const result = await ctx.model.Department.find({}).populate('Department').exec()
+        console.log(result)
+        const data = result.map(u => {
+            return {
+                id: u._id,
+                name: u.name,
+                key: u.key,
+                child: u.child
+            }
+        })
+
+        return { data }
+    }
 }

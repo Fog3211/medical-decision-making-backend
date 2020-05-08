@@ -23,12 +23,14 @@ export default (app: Application) => {
   router.get('/admin/auth', controller.auth.authList)
 
   // disease
-  // router.get('/admin/disease', controller.disease.index)
-  // router.post('/admin/disease', controller.disease.create)
-  // router.del('/admin/disease/:id', controller.disease.destroy)
-  // router.put('/admin/disease/:id', controller.disease.update)
-  // router.get('/admin/disease/:id', controller.disease.show)
-  router.resources('disease', '/admin/disease', controller.disease)
+  router.get('/admin/disease', controller.disease.index)
+  router.post('/admin/disease', controller.disease.create)
+  router.del('/admin/disease/:id', controller.disease.destroy)
+  router.put('/admin/disease/:id', controller.disease.update)
+  router.get('/admin/disease/:id', controller.disease.show)
+  router.get('/admin/bodyPartList', controller.disease.bodyPartList)
+  router.get('/admin/departmentList', controller.disease.departmentList)
+  // router.resources('disease', '/admin/disease', controller.disease)
 
   // adminer
   router.get('/admin/adminer', controller.adminer.index)
@@ -50,6 +52,12 @@ export default (app: Application) => {
   router.put('/admin/decision/:id', controller.decision.update)
   router.get('/admin/decision/:id', controller.decision.show)
   // router.resources('decision', '/admin/decision', controller.decision)
+
+  // question
+  router.get('/admin/questionList', controller.question.questionList)
+  // router.del('/admin/decision/:id', controller.decision.destroyDecision)
+  // router.put('/admin/decision/:id', controller.decision.update)
+  // router.get('/admin/decision/:id', controller.decision.show)
 
 
 

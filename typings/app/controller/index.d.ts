@@ -8,6 +8,7 @@ import ExportDecision from '../../../app/controller/decision';
 import ExportDisease from '../../../app/controller/disease';
 import ExportHome from '../../../app/controller/home';
 import ExportHospital from '../../../app/controller/hospital';
+import ExportQuestion from '../../../app/controller/question';
 import ExportUser from '../../../app/controller/user';
 
 declare module 'egg' {
@@ -18,6 +19,7 @@ declare module 'egg' {
     disease: ExportDisease;
     home: ExportHome;
     hospital: ExportHospital;
+    question: ExportQuestion;
     user: ExportUser;
   }
 }
