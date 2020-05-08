@@ -7,7 +7,7 @@ export default class UserController extends Controller {
         super(ctx)
     }
     // 获取所有用户列表
-    public async index() {
+    public async userList() {
         const { ctx, service } = this
         // 组装参数
         const payload = ctx.request.query || {}
@@ -16,7 +16,7 @@ export default class UserController extends Controller {
             pageNo: Number(payload.pageNo) || DEFAULT_PAGENO,
             pageSize: Number(payload.pageSize) || DEFAULT_PAGESIZE
         }
-        const result = await service.user.index(params)
+        const result = await service.user.userList(params)
         // 设置响应内容和响应状态码
         ctx.helper.success({ ctx, result })
     }

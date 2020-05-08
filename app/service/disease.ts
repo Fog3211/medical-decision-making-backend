@@ -4,35 +4,20 @@ import { DiseaseType } from '../config/type.config'
 export default class DiseaseService extends Service {
 
     // 获取所有疾病列表(分页+模糊搜索)
-    public async index(payload) {
+    public async diseaseList(payload) {
         const { ctx } = this
-        const { pageNo, pageSize, diseaseName } = payload
+        const { pageNo, pageSize, name } = payload
         const skip = (pageNo - 1) * pageSize
         const params = {
             $and: [
-                { diseaseName: { $regex: diseaseName || '' } }
+                { name: { $regex: name || '' } }
             ],
-            // $not: [
-            //     { isHidden: { $regex: true } }
-            // ]
         }
         const result = await ctx.model.Disease.find(params).populate('Disease').skip(skip).limit(pageSize).sort({ createdAt: -1 }).exec()
         const count = await ctx.model.Disease.find(params).countDocuments()
 
-        const data = result.map(u => {
-            return {
-                id: u._id,
-                diseaseName: u.diseaseName,
-                diseaseCode: u.diseaseCode,
-                createdAt: u.createdAt,
-                tag: u.tag || [],
-                department: u.department,
-                symptom: u.symptom,
-                handler: u.handler
-            }
-        })
-
-        return { count, data }
+        // console.log(result, data)
+        return { count, data: result }
     }
 
     // 添加单个疾病
@@ -106,7 +91,7 @@ export default class DiseaseService extends Service {
         const { ctx } = this
 
         const result = await ctx.model.Department.find({}).populate('Department').exec()
-        console.log(result)
+        console.log(await ctx.model.Department.find().exec())
         const data = result.map(u => {
             return {
                 id: u._id,

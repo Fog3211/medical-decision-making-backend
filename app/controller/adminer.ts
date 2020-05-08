@@ -6,12 +6,12 @@ export default class AdminerController extends Controller {
         super(ctx)
     }
     // 获取所有用户列表
-    public async index() {
+    public async adminerList() {
         const { ctx, service } = this
         // 组装参数
         const payload = ctx.request.body || {}
         // 调用 Service 进行业务处理
-        const result = await service.adminer.index(payload)
+        const result = await service.adminer.adminerList(payload)
         // 设置响应内容和响应状态码
         ctx.helper.success({ ctx, result })
     }

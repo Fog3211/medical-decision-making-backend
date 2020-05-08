@@ -1,5 +1,5 @@
 import { Application } from 'egg'
-import * as dayjs from 'dayjs'
+import { formatTime } from '../utils/index'
 
 export default (app: Application) => {
     const mongoose = app.mongoose
@@ -12,7 +12,7 @@ export default (app: Application) => {
         city: { type: String, required: true },
         address: { type: String, required: true },
         introduction: { type: String, required: true },
-        createdAt: { type: String, default: dayjs().format('YYYY-MM-DD HH:mm:ss') },
+        createdAt: { type: String, default: formatTime.nowTime() },
     })
 
     return mongoose.model('Hospital', HospitalSchema)

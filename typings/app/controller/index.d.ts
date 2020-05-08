@@ -5,9 +5,10 @@ import 'egg';
 import ExportAdminer from '../../../app/controller/adminer';
 import ExportAuth from '../../../app/controller/auth';
 import ExportDecision from '../../../app/controller/decision';
+import ExportDepartment from '../../../app/controller/department';
 import ExportDisease from '../../../app/controller/disease';
-import ExportHome from '../../../app/controller/home';
 import ExportHospital from '../../../app/controller/hospital';
+import ExportPart from '../../../app/controller/part';
 import ExportQuestion from '../../../app/controller/question';
 import ExportUser from '../../../app/controller/user';
 
@@ -16,9 +17,10 @@ declare module 'egg' {
     adminer: ExportAdminer;
     auth: ExportAuth;
     decision: ExportDecision;
+    department: ExportDepartment;
     disease: ExportDisease;
-    home: ExportHome;
     hospital: ExportHospital;
+    part: ExportPart;
     question: ExportQuestion;
     user: ExportUser;
   }

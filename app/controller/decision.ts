@@ -7,7 +7,7 @@ export default class DecisionController extends Controller {
         super(ctx)
     }
     // 获取所有用户列表
-    public async index() {
+    public async decisionList() {
         const { ctx, service } = this
 
         ctx.validate(GET_DECISION_LIST)
@@ -18,7 +18,7 @@ export default class DecisionController extends Controller {
             pageNo: Number(payload.pageNo) || DEFAULT_PAGENO,
             pageSize: Number(payload.pageSize) || DEFAULT_PAGESIZE
         }
-        const result = await service.decision.index(params)
+        const result = await service.decision.decisionList(params)
         // 设置响应内容和响应状态码
         ctx.helper.success({ ctx, result })
     }

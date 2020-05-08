@@ -5,7 +5,8 @@ import { encryptionUtils } from '../utils/index'
 export default class UserService extends Service {
 
     // 获取所有用户列表(分页+模糊搜索)
-    public async index(payload) {
+    public async userList(payload) {
+        const { ctx } = this
         const { pageNo, pageSize, name } = payload
         const skip = (pageNo - 1) * pageSize
         const params = {
@@ -13,8 +14,8 @@ export default class UserService extends Service {
                 { name: { $regex: name || '' } }
             ]
         }
-        const result = await this.ctx.model.User.find(params).populate('User').skip(skip).limit(pageSize).sort({ createdAt: -1 }).exec()
-        const count = await this.ctx.model.User.find(params).countDocuments()
+        const result = await ctx.model.User.find(params).populate('User').skip(skip).limit(pageSize).sort({ createdAt: -1 }).exec()
+        const count = await ctx.model.User.find(params).countDocuments()
 
         const data = result.map(u => {
             return {

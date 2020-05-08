@@ -7,7 +7,7 @@ export default class DiseaseController extends Controller {
         super(ctx)
     }
     // 获取疾病列表
-    public async index() {
+    public async diseaseList() {
         const { ctx, service } = this
 
         // 组装参数
@@ -17,7 +17,7 @@ export default class DiseaseController extends Controller {
             pageNo: Number(payload.pageNo) || DEFAULT_PAGENO,
             pageSize: Number(payload.pageSize) || DEFAULT_PAGESIZE
         }
-        const result = await service.disease.index(params)
+        const result = await service.disease.diseaseList(params)
         // 设置响应内容和响应状态码
         ctx.helper.success({ ctx, result })
     }
@@ -61,23 +61,6 @@ export default class DiseaseController extends Controller {
         const { id } = ctx.params
 
         const result = await service.disease.show(id)
-
-        ctx.helper.success({ ctx, result })
-    }
-
-    // 根据身体部位选疾病
-    async bodyPartList() {
-        const { ctx, service } = this
-
-        const result = await service.disease.bodyPartList()
-
-        ctx.helper.success({ ctx, result })
-    }
-    // 根据身体科室选疾病
-    async departmentList() {
-        const { ctx, service } = this
-
-        const result = await service.disease.departmentList()
 
         ctx.helper.success({ ctx, result })
     }

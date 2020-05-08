@@ -4,7 +4,7 @@ import { DecisionType } from '../config/type.config'
 export default class DecisionService extends Service {
 
     // 获取所有用户列表(分页+模糊搜索)
-    public async index(payload) {
+    public async decisionList(payload) {
         const { ctx } = this
         const { pageNo, pageSize, name } = payload
         const skip = (pageNo - 1) * pageSize

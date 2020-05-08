@@ -5,7 +5,7 @@ import { encryptionUtils } from '../utils/index'
 export default class AdminerService extends Service {
 
     // 获取所有疾病列表(分页+模糊搜索)
-    public async index(payload) {
+    public async adminerList(payload) {
         const { ctx } = this
         const { pageNo, pageSize, name } = payload
         const skip = ((Number(pageNo)) - 1) * Number(pageSize || 20)
