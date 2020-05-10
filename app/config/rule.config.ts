@@ -2,7 +2,6 @@
 export const CREATE_USER = {
     name: { type: 'string', required: true, allowEmpty: false },
     nickName: { type: 'string', required: true, allowEmpty: false },
-    birthday: { type: 'string', required: true, allowEmpty: false },
     sex: { type: 'bool', required: true },
     telphone: { type: 'number', required: true, allowEmpty: false },
     password: { type: 'string', required: true, allowEmpty: false },

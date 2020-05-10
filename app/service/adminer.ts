@@ -4,26 +4,38 @@ import { encryptionUtils } from '../utils/index'
 
 export default class AdminerService extends Service {
 
-    // 获取所有疾病列表(分页+模糊搜索)
+    // 获取所有管理员列表
     public async adminerList(payload) {
         const { ctx } = this
-        const { pageNo, pageSize, name } = payload
+        const { pageNo, pageSize, name, createdAt, telphone, email } = payload
         const skip = ((Number(pageNo)) - 1) * Number(pageSize || 20)
         const params = {
             $and: [
-                { name: { $regex: name || '' } }
-            ]
+                { name: { $regex: name || '' } },
+                { email: { $regex: email || '' } },
+                { createdAt: { $regex: createdAt || '' } }
+            ],
+            telphone: telphone || null
         }
+        Object.keys(params).forEach((key) => {
+            if (params[key] === null || params[key] === undefined) {
+                delete params[key]
+            }
+        })
+
         const result = await ctx.model.Adminer.find(params).populate('Adminer').skip(skip).limit(Number(pageSize)).sort({ createdAt: -1 }).exec()
         const count = await ctx.model.Adminer.find(params).countDocuments()
+        const authList = await ctx.model.Auth.find({ isHidden: false }).populate('Auth').exec()
 
-        const data = result.map(u => {
+        const data = result.map(item => {
+            const currentAuth = authList.find(u => item.auth == u._id)
+
             return {
-                id: u._id,
-                name: u.name,
-                auth: u.auth,
-                createdAt: u.createdAt,
-                telphone: u.telphone
+                id: item.id,
+                name: item.name,
+                telphone: item.telphone,
+                createdAt: item.createdAt,
+                auth: currentAuth?.name,
             }
         })
 
@@ -42,30 +54,32 @@ export default class AdminerService extends Service {
     }
 
     // 删除用户 
-    async destroyAdminer(id: string) {
+    async destroyAdminer(_id: string) {
         const { ctx } = this
         const currentUser = await ctx.model.Adminer.findOne({
-            _id: id
+            _id
         })
         if (currentUser) {
-            return ctx.model.Adminer.findByIdAndRemove({ _id: id })
+            return ctx.model.Adminer.findByIdAndRemove({ _id })
         } else {
             ctx.throw(101, '未找到用户')
         }
     }
 
     // 更新用户信息
-    public async update(id: string, payload: AdminerType) {
+    public async updateAdminer(_id: string, payload: AdminerType) {
         const { ctx } = this
-        try {
-            const Adminer = await ctx.service.Adminer.find(id)
-            if (!Adminer) {
-                ctx.throw(101, '未找到用户')
-            }
-            return ctx.model.Adminer.findByIdAndUpdate(id, payload)
-        } catch{
+
+        const Adminer = await ctx.model.Adminer.findOne({
+            _id
+        })
+        if (!Adminer) {
             ctx.throw(101, '未找到用户')
         }
+        return ctx.model.Adminer.findByIdAndUpdate(_id, {
+            ...payload,
+            password: encryptionUtils.decrypt(payload.password),
+        })
     }
 
     // 获取单个用户信息
@@ -78,17 +92,14 @@ export default class AdminerService extends Service {
         if (currentUser) {
             return {
                 name: currentUser.name,
-                password: currentUser.password,
-                auth: currentUser.auth
+                password: encryptionUtils.encrypt(currentUser.password),
+                auth: currentUser.auth,
+                telphone: currentUser.telphone,
+                email: currentUser.email,
             }
         } else {
             ctx.throw(101, '未找到用户')
         }
-    }
-
-    // 更加id查找数据
-    public async find(id: string) {
-        return this.ctx.model.Adminer.findById(id)
     }
 
     // 用户登录
@@ -96,7 +107,7 @@ export default class AdminerService extends Service {
         const { ctx } = this
         const params = {
             email: payload.email,
-            telphone: payload.telphone,
+            telphone: isNaN(Number(payload.telphone)) ? null : Number(payload.telphone),
             password: encryptionUtils.decrypt(payload.password)
         }
         Object.keys(params).forEach((key) => {

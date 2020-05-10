@@ -23,43 +23,35 @@ export default (app: Application) => {
   // disease 疾病管理
   router.get('/admin/disease', controller.disease.diseaseList)
   router.post('/admin/disease', controller.disease.create)
-  router.del('/admin/disease/:id', controller.disease.destroy)
-  router.put('/admin/disease/:id', controller.disease.update)
-  router.get('/admin/disease/:id', controller.disease.show)
+  router.del('/admin/disease/:id', controller.disease.destroyDisease)
+  router.put('/admin/disease/:id', controller.disease.updateDisease)
+  router.get('/admin/disease/:id', controller.disease.diseaseDetail)
+
+  // adminer 后台用户管理
+  router.get('/admin/adminer', controller.adminer.adminerList)
+  router.post('/admin/adminer', controller.adminer.createAdminer)
+  router.del('/admin/adminer/:id', controller.adminer.destroyAdminer)
+  router.put('/admin/adminer/:id', controller.adminer.updateAdminer)
+  router.get('/admin/adminer/:id', controller.adminer.adminerDetail)
+
+  // hospital 医院管理
+  router.get('/admin/hospital', controller.hospital.hospitalList)
+  router.post('/admin/hospital', controller.hospital.create)
+  router.del('/admin/hospital/:id', controller.hospital.destroyHospital)
+  router.put('/admin/hospital/:id', controller.hospital.updateHospital)
+  router.get('/admin/hospital/:id', controller.hospital.hospitalDetail)
+
+  // decision 决策管理
+  router.get('/admin/decision', controller.decision.decisionList)
+  router.del('/admin/decision/:id', controller.decision.destroyDecision)
+  router.put('/admin/decision/:id', controller.decision.updateDecision)
+  router.get('/admin/decision/:id', controller.decision.decisionDetail)
 
   // part 按部位查询
   router.get('/admin/part', controller.part.partList)
 
   // department 按科室查询
   router.get('/admin/department', controller.department.departmentList)
-
-  // adminer 后台用户管理
-  router.get('/admin/adminerList', controller.adminer.adminerList)
-  router.post('/admin/adminer', controller.adminer.createAdminer)
-  router.del('/admin/adminer/:id', controller.adminer.destroyAdminer)
-  router.put('/admin/adminer/:id', controller.adminer.update)
-  router.get('/admin/adminer/:id', controller.adminer.adminerDetail)
-
-  // hospital 医院管理
-  router.get('/admin/hospital', controller.hospital.hospitalList)
-  router.post('/admin/hospital', controller.hospital.create)
-  router.del('/admin/hospital/:id', controller.hospital.destroy)
-  router.put('/admin/hospital/:id', controller.hospital.update)
-  router.get('/admin/hospital/:id', controller.hospital.show)
-
-  // decision 决策管理
-  router.get('/admin/decision', controller.decision.decisionList)
-  router.del('/admin/decision/:id', controller.decision.destroyDecision)
-  router.put('/admin/decision/:id', controller.decision.update)
-  router.get('/admin/decision/:id', controller.decision.show)
-  // router.resources('decision', '/admin/decision', controller.decision)
-
-  // question 问答管理
-  router.get('/admin/question', controller.question.questionList)
-  // router.del('/admin/decision/:id', controller.decision.destroyDecision)
-  // router.put('/admin/decision/:id', controller.decision.update)
-  // router.get('/admin/decision/:id', controller.decision.show)
-
 
 
   // api 前台相关接口
@@ -68,4 +60,19 @@ export default (app: Application) => {
   router.post('/api/login', controller.user.login)
   router.post('/api/register', controller.user.register)
 
+  // part 按部位查询
+  router.get('/api/part', controller.part.partList)
+
+  // department 按科室查询
+  router.get('/api/department', controller.department.departmentList)
+
+  // question 问答管理
+  router.get('/api/question', controller.question.questionList)
+  router.del('/api/question/:id', controller.question.destroy)
+
+  // 查询疾病
+  router.get('/api/disease', controller.disease.diseaseList)
+
+  // 查询疾病
+  router.get('/api/cartoon', controller.cartoon.cartoonList)
 }

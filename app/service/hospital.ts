@@ -5,30 +5,20 @@ export default class HospitalService extends Service {
 
     // 获取所有疾病列表(分页+模糊搜索)
     public async hospitalList(payload) {
-        const { pageNo, pageSize, name } = payload
+        const { pageNo, pageSize, name, province, city, phone } = payload
         const skip = (pageNo - 1) * pageSize
         const params = {
             $and: [
-                { name: { $regex: name || '' } }
+                { name: { $regex: name || '' } },
+                { phone: { $regex: phone || '' } },
+                { province: { $regex: province || '' } },
+                { city: { $regex: city || '' } }
             ]
         }
         const result = await this.ctx.model.Hospital.find(params).populate('Hospital').skip(skip).limit(pageSize).sort({ createdAt: -1 }).exec()
         const count = await this.ctx.model.Hospital.find(params).countDocuments()
 
-        const data = result.map(u => {
-            return {
-                id: u.id,
-                name: u.name,
-                province: u.province,
-                city: u.city,
-                phone: u.phone,
-                address: u.address,
-                handler: u.handler,
-                createAt: u.createAt
-            }
-        })
-
-        return { count, data }
+        return { count, data: result }
     }
 
     // 添加单个用户
@@ -38,50 +28,39 @@ export default class HospitalService extends Service {
     }
 
     // 删除用户 
-    async destroy(id: string) {
+    async destroyHospital(id: string) {
         const { ctx } = this
         try {
-            const Hospital = await ctx.service.Hospital.find(id)
+            const Hospital = await ctx.model.Hospital.findById(id)
             if (!Hospital) {
-                ctx.throw(101, '未找到用户')
+                ctx.throw(101, '未找到相关医院')
             }
-            return ctx.model.Hospital.findByIdAndRemove(id)
+            return ctx.model.Hospital.findById(id)
         } catch{
-            ctx.throw(101, '未找到用户')
+            ctx.throw(101, '未找到相关医院')
         }
     }
 
     // 更新用户信息
-    public async update(id: string, payload: HospitalType) {
+    public async updateHospital(_id: string, payload: HospitalType) {
         const { ctx } = this
-        try {
-            const Hospital = await ctx.service.Hospital.find(id)
-            if (!Hospital) {
-                ctx.throw(101, '未找到用户')
-            }
-            return ctx.model.Hospital.findByIdAndUpdate(id, payload)
-        } catch{
-            ctx.throw(101, '未找到用户')
+
+        const Hospital = await ctx.model.Hospital.findOne({ _id })
+        if (!Hospital) {
+            ctx.throw(101, '未找到对应的医院')
         }
+        return ctx.model.Hospital.findByIdAndUpdate(_id, payload)
     }
 
-    // 获取单个用户信息
-    async show(id: string) {
+    // 获取单个医院信息
+    async hospitalDetail(id: string) {
         const { ctx } = this
-        try {
-            const Hospital = await ctx.service.Hospital.find(id)
-            if (!Hospital) {
-                ctx.throw(101, '未找到用户')
-            }
-            return ctx.model.Hospital.findById(id)
-        } catch{
-            ctx.throw(101, '未找到用户')
-        }
-    }
 
-    // 更加id查找数据
-    async find(id: string) {
-        return this.ctx.model.Hospital.findById(id)
+        const Hospital = await ctx.model.Hospital.findById(id)
+        if (!Hospital) {
+            ctx.throw(101, '未找到相关医院')
+        }
+        return ctx.model.Hospital.findById(id)
     }
 
 }

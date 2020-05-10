@@ -7,13 +7,23 @@ export default class UserService extends Service {
     // 获取所有用户列表(分页+模糊搜索)
     public async userList(payload) {
         const { ctx } = this
-        const { pageNo, pageSize, name } = payload
+        const { pageNo, pageSize, name, telphone, nickName, createdAt, sex, id } = payload
         const skip = (pageNo - 1) * pageSize
         const params = {
             $and: [
-                { name: { $regex: name || '' } }
-            ]
+                { name: { $regex: name || '' } },
+                { nickName: { $regex: nickName || '' } },
+                { createdAt: { $regex: createdAt || '' } },
+            ],
+            telphone: telphone || null,
+            sex: isNaN(Number(sex)) ? null : Number(sex),
+            _id: id
         }
+        Object.keys(params).forEach((key) => {
+            if (params[key] === null || params[key] === undefined) {
+                delete params[key]
+            }
+        })
         const result = await ctx.model.User.find(params).populate('User').skip(skip).limit(pageSize).sort({ createdAt: -1 }).exec()
         const count = await ctx.model.User.find(params).countDocuments()
 
@@ -22,7 +32,7 @@ export default class UserService extends Service {
                 id: u.id,
                 name: u.name,
                 nickName: u.nickName,
-                sex: u.sex ? '男' : '女',
+                sex: u.sex === 1 ? '男' : '女',
                 age: u.age,
                 telphone: u.telphone,
                 isForbidden: u.isForbidden,
@@ -71,7 +81,6 @@ export default class UserService extends Service {
                 id: user.id,
                 name: user.name,
                 nickName: user.nickName,
-                adress: user.adress,
                 createdAt: user.createdAt,
                 sex: user.sex,
                 telphone: user.telphone,
@@ -86,35 +95,33 @@ export default class UserService extends Service {
         const { ctx } = this
         const params = {
             ...payload,
-            password: encryptionUtils.encrypt(payload.password)
+            password: encryptionUtils.decrypt(payload.password)
         }
-        return ctx.model.User.create(params)
+        const count = await ctx.model.User.find({
+            telphone: payload.telphone
+        }).countDocuments()
+        if (count > 0) {
+            ctx.throw(101, '注册失败，手机号已被占用')
+        } else {
+            return ctx.model.User.create(params)
+        }
     }
 
     // 用户登录
-    public async login(payload) {
+    public async login(payload: UserType) {
         const { ctx } = this
         const params = {
-            email: payload.email,
             telphone: payload.telphone,
-            password: payload.password
+            password: encryptionUtils.decrypt(payload.password)
         }
-        Object.keys(params).forEach((key) => {
-            if (params[key] === null || params[key] === undefined) {
-                delete params[key]
-            }
-        })
         const currentUser = await ctx.model.User.findOne(params)
-
         if (currentUser) {
             return {
                 id: currentUser.id,
-                name: currentUser.name,
-                auth: currentUser.auth,
-                // token
+                name: currentUser.name
             }
         } else {
-            ctx.throw(101, '登录失败,密码或账号错误!')
+            ctx.throw(102, '登录失败,密码或账号错误!')
         }
     }
 }

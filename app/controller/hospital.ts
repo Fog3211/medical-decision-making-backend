@@ -32,33 +32,33 @@ export default class HospitalController extends Controller {
         ctx.helper.success({ ctx, result })
     }
 
-    // 删除单个用户
-    async destroy() {
+    // 删除单个医院
+    async destroyHospital() {
         const { ctx, service } = this
         const { id } = ctx.params
 
-        await service.hospital.destroy(id)
+        await service.hospital.destroyHospital(id)
 
         ctx.helper.success({ ctx, msg: '删除成功' })
     }
 
-    // 修改角色
-    async update() {
+    // 修改医院
+    async updateHospital() {
         const { ctx, service } = this
         const { id } = ctx.params
 
         const payload = ctx.request.body || {}
-        await service.hospital.update(id, payload)
+        await service.hospital.updateHospital(id, payload)
 
         ctx.helper.success({ ctx })
     }
 
-    // 获取单个角色
-    async show() {
+    // 获取单个医院详细信息
+    async hospitalDetail() {
         const { ctx, service } = this
         const { id } = ctx.params
 
-        const result = await service.hospital.show(id)
+        const result = await service.hospital.hospitalDetail(id)
 
         ctx.helper.success({ ctx, result })
     }

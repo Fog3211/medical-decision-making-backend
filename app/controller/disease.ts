@@ -34,33 +34,33 @@ export default class DiseaseController extends Controller {
         ctx.helper.success({ ctx, result })
     }
 
-    // 删除单个用户
-    async destroy() {
+    // 删除单个疾病
+    async destroyDisease() {
         const { ctx, service } = this
         const { id } = ctx.params
 
-        await service.disease.destroy(id)
+        await service.disease.destroyDisease(id)
 
         ctx.helper.success({ ctx, msg: '删除成功' })
     }
 
     // 修改角色
-    async update() {
+    async updateDisease() {
         const { ctx, service } = this
         const { id } = ctx.params
 
         const payload = ctx.request.body || {}
-        await service.disease.update(id, payload)
+        await service.disease.updateDisease(id, payload)
 
         ctx.helper.success({ ctx })
     }
 
-    // 获取单个角色
-    async show() {
+    // 获取单个疾病信息
+    async diseaseDetail() {
         const { ctx, service } = this
         const { id } = ctx.params
 
-        const result = await service.disease.show(id)
+        const result = await service.disease.diseaseDetail(id)
 
         ctx.helper.success({ ctx, result })
     }

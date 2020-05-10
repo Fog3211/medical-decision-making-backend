@@ -8,11 +8,9 @@ export default (app: Application) => {
         name: { type: String, required: true },
         password: { type: String, required: true },
         nickName: { type: String, required: true },
-        birthday: { type: String, required: true },
-        age: { type: Number, required: true },
-        sex: { type: Boolean, required: true },
+        sex: { type: Number, required: true },
         telphone: { type: Number, required: true },
-        isForbidden: { type: Boolean, required: true },
+        isForbidden: { type: Boolean, default: false },
         createdAt: { type: String, default: formatTime.nowTime() },
     })
 

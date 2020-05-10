@@ -4,6 +4,7 @@
 import 'egg';
 import ExportAdminer from '../../../app/controller/adminer';
 import ExportAuth from '../../../app/controller/auth';
+import ExportCartoon from '../../../app/controller/cartoon';
 import ExportDecision from '../../../app/controller/decision';
 import ExportDepartment from '../../../app/controller/department';
 import ExportDisease from '../../../app/controller/disease';
@@ -16,6 +17,7 @@ declare module 'egg' {
   interface IController {
     adminer: ExportAdminer;
     auth: ExportAuth;
+    cartoon: ExportCartoon;
     decision: ExportDecision;
     department: ExportDepartment;
     disease: ExportDisease;

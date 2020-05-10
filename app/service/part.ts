@@ -7,8 +7,7 @@ export default class PartService extends Service {
         const { ctx } = this
 
         const result = await ctx.model.Part.find({}).populate('part').exec()
-        console.log(result)
 
-        return { data: result }
+        return result
     }
 }

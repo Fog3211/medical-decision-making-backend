@@ -56,7 +56,7 @@ export default class UserController extends Controller {
     public async login() {
         const { ctx, service } = this
         const payload = ctx.request.body || {}
-        console.log(payload)
+
         const result = await service.user.login(payload)
 
         ctx.helper.success({ ctx, result })

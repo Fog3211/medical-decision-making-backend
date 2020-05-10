@@ -4,6 +4,7 @@ export interface UserType {
     name: string
     adress: string
     createdAt: string
+    telphone: number
     password: string
 }
 // 疾病管理-admin
@@ -32,4 +33,5 @@ export interface HospitalType {
 export interface DecisionType {
     id?: string
     name?: string
+    status: number
 }

@@ -9,7 +9,8 @@ export default class AdminerController extends Controller {
     public async adminerList() {
         const { ctx, service } = this
         // 组装参数
-        const payload = ctx.request.body || {}
+        const payload = ctx.request.query || {}
+
         // 调用 Service 进行业务处理
         const result = await service.adminer.adminerList(payload)
         // 设置响应内容和响应状态码
@@ -40,12 +41,12 @@ export default class AdminerController extends Controller {
     }
 
     // 修改角色
-    async update() {
+    async updateAdminer() {
         const { ctx, service } = this
         const { id } = ctx.params
 
         const payload = ctx.request.body || {}
-        await service.adminer.update(id, payload)
+        await service.adminer.updateAdminer(id, payload)
 
         ctx.helper.success({ ctx })
     }

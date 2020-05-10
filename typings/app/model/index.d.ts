@@ -4,6 +4,7 @@
 import 'egg';
 import ExportAdminer from '../../../app/model/adminer';
 import ExportAuth from '../../../app/model/auth';
+import ExportCartoon from '../../../app/model/cartoon';
 import ExportDecision from '../../../app/model/decision';
 import ExportDepartment from '../../../app/model/department';
 import ExportDisease from '../../../app/model/disease';
@@ -16,6 +17,7 @@ declare module 'egg' {
   interface IModel {
     Adminer: ReturnType<typeof ExportAdminer>;
     Auth: ReturnType<typeof ExportAuth>;
+    Cartoon: ReturnType<typeof ExportCartoon>;
     Decision: ReturnType<typeof ExportDecision>;
     Department: ReturnType<typeof ExportDepartment>;
     Disease: ReturnType<typeof ExportDisease>;

@@ -7,8 +7,7 @@ export default class DepartmentService extends Service {
         const { ctx } = this
 
         const result = await ctx.model.Department.find({}).populate('department').exec()
-        console.log(result)
 
-        return { data: result }
+        return result
     }
 }
