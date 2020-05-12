@@ -1,6 +1,8 @@
 import { Service } from 'egg'
 import { AdminerType } from '../config/type.config'
 import { encryptionUtils } from '../utils/index'
+import * as JWT from 'jsonwebtoken'
+import { TOKEN_EXPIRES_TIME, JWT_SECRET } from '../config/constant.config'
 
 export default class AdminerService extends Service {
 
@@ -116,12 +118,20 @@ export default class AdminerService extends Service {
             }
         })
         const currentUser = await ctx.model.Adminer.findOne(params)
+
         if (currentUser) {
+            // console.log(JWT.sign({ id: currentUser.id }, this.config.jwt.secret, {
+            //     algorithm: 'HS256',
+            //     expiresIn: TOKEN_EXPIRES_TIME,
+            // }))
             return {
                 id: currentUser.id,
                 name: currentUser.name,
                 auth: currentUser.auth,
-                // token
+                token: JWT.sign({ id: currentUser.id }, JWT_SECRET, {
+                    algorithm: 'HS256',
+                    expiresIn: TOKEN_EXPIRES_TIME,
+                })
             }
         } else {
             ctx.throw(102, '登录失败,密码或账号错误!')

@@ -8,11 +8,9 @@ export default (appInfo: EggAppInfo): any => {
   config.keys = appInfo.name + '_1513779989145_1674'
 
   // 加载中间件
-  config.middleware = ['errorHandler',
-    //  'notfoundHandler',
-    'gzipResponse']
+  config.middleware = ['errorHandler', 'gzip']
 
-  // 只对 /api 前缀的 url 路径生效
+  // 路径匹配
   config.errorHandler = {
     match: '/'
   }
@@ -33,8 +31,6 @@ export default (appInfo: EggAppInfo): any => {
     widelyUndefined: true //空字符串,NaN,null转成 undefined
   }
   // 默认 body 最大长度为 100kb
-  // 如果用户的请求 body 超过了我们配置的解析最大长度，会抛出一个状态码为 413 的异常
-  // 如果用户请求的 body 解析失败（错误的 JSON），会抛出一个状态码为 400 的异常。
   config.bodyParser = {
     jsonLimit: '1mb',
     formLimit: '1mb',
@@ -55,7 +51,7 @@ export default (appInfo: EggAppInfo): any => {
   // token校验
   config.jwt = {
     secret: JWT_SECRET,
-    enable: false,
+    enable: true,
   }
   // 文件上传
   config.upload = {
@@ -68,7 +64,14 @@ export default (appInfo: EggAppInfo): any => {
     credentials: true,
     allowMethods: 'GET,PUT,POST,DELETE'
   }
-
+  config.io = {
+    namespace: {
+      '/': {
+        connectionMiddleware: [],//中间件处理
+        packetMiddleware: [],//消息处理
+      },
+    },
+  }
   return config
 }
 

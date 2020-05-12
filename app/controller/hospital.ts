@@ -1,5 +1,4 @@
 import { Controller, Context } from 'egg'
-// import { GET_HOSPITAL_LIST, CREATE_HOSPITAL } from '../config/rule.config'
 import { DEFAULT_PAGENO, DEFAULT_PAGESIZE } from '../config/constant.config'
 
 export default class HospitalController extends Controller {
@@ -23,8 +22,6 @@ export default class HospitalController extends Controller {
     // 创建单个用户
     async create() {
         const { ctx, service } = this
-
-        // ctx.validate(CREATE_HOSPITAL)
 
         const payload = ctx.request.body || {}
         const result = await service.hospital.create(payload)
